@@ -20,7 +20,7 @@ var lowY = 0;
 var highY = H - 1;
 
 var lowX = 0;
-var highX = 0;
+var highX = W -1;
 
 // game loop
 while (true) {
@@ -42,7 +42,9 @@ function setNewY(bombDir) {
 
     if (bombDir.includes("U")) {
         highY = newY;
-        newY = newY - divideByTwoRoundingUp(newY - lowY);        
+        newY = newY - divideByTwoRoundingUp(newY - lowY);    
+        
+        console.error("Divide 2 " + divideByTwoRoundingUp(newY - lowY))
     }
 
     if (newY >= H)
@@ -53,15 +55,21 @@ function divideByTwoRoundingUp(x) {
     return Math.ceil(x / 2);
 }
 
+function divideByTwoRoundingDown(x) {
+    return Math.floor(x / 2);
+}
+
 function setNewX(bombDir) {
     if (bombDir.includes("R")) {
         lowX = newX;
-        newX = newX + divideByTwoRoundingUp((maxX - newX));
+        newX = newX + divideByTwoRoundingUp(highX - newX);
     }
 
     if (bombDir.includes("L")) {
         highX = newX;
-        newX = lowX + divideByTwoRoundingUp(newX - lowX);
+        newX = newX - divideByTwoRoundingUp(newX - lowX);    
+        
+        console.error("Divide 2 " + divideByTwoRoundingUp(newX - lowX))
     }
 
     if (newX >= W)
