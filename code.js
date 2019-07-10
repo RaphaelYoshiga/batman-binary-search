@@ -19,6 +19,9 @@ var newY = Y0;
 var lowY = 0;
 var highY = 0;
 
+var lowX = 0;
+var highX = 0;
+
 // game loop
 while (true) {
     const bombDir = readline(); // the direction of the bombs from batman's current location (U, UR, R, DR, D, DL, L or UL)
@@ -53,9 +56,26 @@ function setNewY(bombDir) {
     {
         newY = newY - parseInt((newY - lowY) / 2);
         highY = newY;
-        
     }
 
     if (newY >= H)
         newY = H -1;
+}
+
+
+function setNewX(bombDir) {
+    if (bombDir.includes("R"))
+    {
+        lowX = newX;
+        newX = newX + parseInt((maxX - newX) / 2) + 1        
+    }
+    
+    if (bombDir.includes("L"))
+    {
+        newX = newX - parseInt((newX - lowX) / 2);
+        highX = newX;
+    }
+
+    if (newX >= W)
+        newX = W -1;
 }
