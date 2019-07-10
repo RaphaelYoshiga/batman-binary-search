@@ -11,13 +11,13 @@ var inputs = readline().split(' ');
 const X0 = parseInt(inputs[0]);
 const Y0 = parseInt(inputs[1]);
 
-const maxY = H -1;
+const maxX = W - 1;
 
 var newX = X0;
 var newY = Y0;
 
 var lowY = 0;
-var highY = 0;
+var highY = H - 1;
 
 var lowX = 0;
 var highX = 0;
@@ -28,54 +28,42 @@ while (true) {
     console.error(bombDir);
 
     setNewY(bombDir);
-
-    if (bombDir.includes("R"))
-        newX = W - 1;
-
-    if (bombDir.includes("L"))
-        newX = parseInt(newX / 2) - 1;
+    setNewX(bombDir);
 
     console.log(`${newX} ${newY}`);
-
-    // Write an action using console.log()
-    // To debug: console.error('Debug messages...');
-
-
-    // the location of the next window Batman should jump to.
-
 }
 
 function setNewY(bombDir) {
-    if (bombDir.includes("D"))
-    {
+    if (bombDir.includes("D")) {
         lowY = newY;
-        newY = newY + parseInt((maxY - newY)/2) + 1        
+        newY = newY + divideByTwoRoundingUp(highY - newY);
+        console.error(highY);
     }
-    
-    if (bombDir.includes("U"))
-    {
-        newY = newY - parseInt((newY - lowY) / 2);
+
+    if (bombDir.includes("U")) {
         highY = newY;
+        newY = newY - divideByTwoRoundingUp(newY - lowY);        
     }
 
     if (newY >= H)
-        newY = H -1;
+        newY = H - 1;
 }
 
+function divideByTwoRoundingUp(x) {
+    return Math.ceil(x / 2);
+}
 
 function setNewX(bombDir) {
-    if (bombDir.includes("R"))
-    {
+    if (bombDir.includes("R")) {
         lowX = newX;
-        newX = newX + parseInt((maxX - newX) / 2) + 1        
+        newX = newX + divideByTwoRoundingUp((maxX - newX));
     }
-    
-    if (bombDir.includes("L"))
-    {
-        newX = newX - parseInt((newX - lowX) / 2);
+
+    if (bombDir.includes("L")) {
         highX = newX;
+        newX = lowX + divideByTwoRoundingUp(newX - lowX);
     }
 
     if (newX >= W)
-        newX = W -1;
+        newX = W - 1;
 }
